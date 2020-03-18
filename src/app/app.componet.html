@@ -1,0 +1,75 @@
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3">
+                <form [formGroup]="form">
+                    <div class="form-group">
+                        <input type="text"
+                            name="name"
+                            placeholder="Nome"
+                            formControlName="name"
+                            maxlength="70"
+                            class="form-control" 
+                            required
+                        />
+
+                        <small *ngIf="form.controls.name.invalid && !form.controls.name.pristine" class="text-danger">
+                            Este campo requer um mínimo de 3 caracteres. <br />
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="number" name="age" placeholder="Idade" formControlName="age" class="form-control" required />
+                    </div>
+
+                    <div class="form-group m-0">
+                        <button (click)="addPerson()" [disabled]="form.invalid" class="btn btn-primary form-control">
+                            <i class="far fa-save"></i> Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Estatísticas -->
+            <div id="statistics" class="card shadow-sm mt-4 p-3">
+                <div class="my-2" *ngIf="!statisticsHidden && youngerPerson && oldPerson">
+                    <p>
+                        <span class="font-weight-bold">Pessoa mais jovem: </span>
+                        {{ youngerPerson.name }}, com {{ youngerPerson.age }} anos.
+                    </p> <hr />
+                    <p>
+                        <span class="font-weight-bold">Pessoa mais idosa: </span>
+                        {{ oldPerson.name }}, com {{ oldPerson.age }} anos.
+                    </p>
+                </div>
+                <button class="btn btn-primary btn-block" (click)="statisticsHidden = !statisticsHidden">
+                    <i class="text-white fas fa-chart-line"></i> Estatísticas
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="font-weight-bold">Pessoas cadastradas</h5>
+                    <span class="font-weight-bold">Total: {{ people.length }}</span>
+                </div>
+
+                <div *ngIf="people.length === 0" class="text-center my-2">
+                    <small>Nenhum registro encontrado!</small>
+                </div>
+
+                <ul *ngFor="let person of people" class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ person.name }}, {{ person.age }} anos.
+                        <span (click)="removePerson(person)" title="Excluir">
+                            <i class="far fa-trash-alt text-danger" style="cursor: pointer;"></i>
+                        </span>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
