@@ -1,0 +1,80 @@
+<div class="container-fluid my-3">
+    <h1 class="text-center">Loja Virtual</h1>
+
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-white text-dark">
+                    <h5 class="font-weight-bold">Produtos</h5>
+                </div>
+
+                <ul *ngFor="let produto of produtos" class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action d-flex flex-column justify-content-start">
+                        <div class="d-flex justify-content-between  align-items-center">
+                            <div>
+                                <span class="font-weight-bold text-muted">
+                                    {{ produto.descricao }}
+                                </span> <br>
+                                <small>R$ {{ produto.preco }}</small> <br />
+                                <small>Estoque: {{ produto.quantidade }}</small> <br />
+                            </div>
+                            <button class="btn btn-sm btn-primary"
+                                title="Eu quelo!"
+                                (click)="addCarinho(produto);"
+                                *ngIf="produto.quantidade > 0; else btnDisabled">
+                                comprar
+                            </button>
+                            <ng-template #btnDisabled>
+                                <button class="btn btn-sm btn-primary"
+                                    title="Cabo" disabled>
+                                    comprar
+                                </button>
+                            </ng-template>
+                        </div>
+                    </li>
+                </ul>
+
+                <div *ngIf="produtos.length === 0" class="text-center my-2">
+                    <small>Nenhum produto encontrado!</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-white text-dark">
+                    <h5 class="text-center font-weight-bold">Carrinho</h5>
+                </div>
+
+                <table *ngIf="carrinho.length !== 0; else emptyTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th class="text-center" scope="col">Produto</th>
+                            <th class="text-center" scope="col">Quantidade</th>
+                            <th class="text-center" scope="col">Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let item of carrinho">
+                        <tr>
+                            <th scope="row">{{ item.produto.id }}</th>
+                            <td class="text-center">{{ item.produto.descricao }}</td>
+                            <td class="text-center">{{ item.quantidade }}</td>
+                            <td class="text-center">R$ {{ item.produto.preco }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <ng-template #emptyTable>
+                    <small class="text-center py-2">Carrinho vazio! </small>
+                </ng-template>
+
+            </div>
+
+            <div class="d-flex justify-content-between py-2">
+                Total:
+                <span>R$ {{totalCarrinho}}</span>
+            </div>
+        </div>
+    </div>
+</div>
